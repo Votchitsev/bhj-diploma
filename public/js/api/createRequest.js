@@ -10,7 +10,7 @@ const createRequest = (options = {}) => {
     if (options.method != 'GET') {
         
         const formData = new FormData();
-        formData.append("mail", options.data.email);
+        formData.append("mail", options.data.mail);
         formData.append("password", options.data.password);
         
         xhr.open(options.method, options.url);
