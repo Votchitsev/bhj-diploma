@@ -30,7 +30,7 @@ class Entity {
    * */
   static create(data, callback) {
     createRequest({
-      url: this.URL.charAt(0),
+      url: this.URL,
       data: {
         mail: data.mail,
       },
