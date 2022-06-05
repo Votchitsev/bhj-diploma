@@ -28,7 +28,6 @@ class User {
    * */
   static unsetCurrent() {
     const storage = window.localStorage;
-
     return storage.removeItem("user");
   }
 
@@ -37,10 +36,8 @@ class User {
    * из локального хранилища
    * */
   static current() {
-
     const storage = window.localStorage;
-  
-    return storage.getItem("user");
+    return JSON.parse(storage.getItem("user"));
   }
 
   /**
