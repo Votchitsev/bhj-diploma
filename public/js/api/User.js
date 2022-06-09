@@ -103,6 +103,17 @@ class User {
    * выхода необходимо вызвать метод User.unsetCurrent
    * */
   static logout(callback) {
-
+    let options = {
+      url: this.URL + '/logout',
+      method: 'POST',
+      data: {},
+      callback: (err, response) => {
+        if (response) {
+          this.unsetCurrent()
+        }
+        callback(err, response);
+      }
+    }
+    createRequest(options);
   }
 }
