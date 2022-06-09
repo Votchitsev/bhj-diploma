@@ -19,6 +19,23 @@ class Sidebar {
    * */
   static initToggleButton() {
 
+    const sidebar = document.querySelector('.sidebar-mini');
+    const sidebarToggle = document.querySelector('.sidebar-toggle');
+
+    sidebarToggle.addEventListener('click', (e) => {
+      
+      e.preventDefault();
+      
+      if (sidebar.classList.contains("sidebar-open")) {
+        sidebar.classList.remove('sidebar-open');
+        sidebar.classList.remove('sidebar-collapse');
+        return
+      }
+
+      sidebar.classList.add('sidebar-open');
+      sidebar.classList.add('sidebar-collapse');
+    })
+    
   }
 
   /**
