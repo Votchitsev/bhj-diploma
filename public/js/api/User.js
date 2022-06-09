@@ -47,14 +47,13 @@ class User {
   static fetch(callback) {
     
     const user = createRequest({
-      url: this.URL,
+      url: this.URL + '/current',
       data: {},
       method: 'GET',
       callback: callback,
     });
 
     return user
-
   }
 
   /**
@@ -89,9 +88,13 @@ class User {
       url: this.URL + '/register',
       data: data,
       method: "POST",
-      callback: callback,
+      callback: (err, response) => {
+        if (response && response.user) {
+          this.setCurrent(response.user);
+        }
+        callback(err, response);
+      }
     }
-
     createRequest(options);
   }
 

@@ -8,10 +8,12 @@ const createRequest = (options = {}) => {
     xhr.responseType = 'json';
 
     if (options.method != 'GET') {
-        
         const formData = new FormData();
-        formData.append("mail", options.data.mail);
-        formData.append("password", options.data.password);
+        
+        Object.keys(options.data).forEach((key) => {
+            console.log(options.data[key]);
+            formData.append(key, options.data[key])
+        });
         
         xhr.open(options.method, options.url);
 
