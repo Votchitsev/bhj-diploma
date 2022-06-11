@@ -26,10 +26,10 @@ class Modal {
    * */
   registerEvents() {
     const closeBtns = this.element.querySelectorAll('[data-dismiss="modal"]');
-    for (let i; i < closeBtns.lenght; i += 1) {
+
+    for (let i = 0; i < closeBtns.length; i++) { 
       closeBtns.item(i).addEventListener('click', (e) => {
         e.preventDefault();
-        console.log('Hey');
         this.onClose(e); 
       })
     }
