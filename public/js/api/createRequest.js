@@ -11,7 +11,6 @@ const createRequest = (options = {}) => {
         const formData = new FormData();
         
         Object.keys(options.data).forEach((key) => {
-            console.log(options.data[key]);
             formData.append(key, options.data[key])
         });
         

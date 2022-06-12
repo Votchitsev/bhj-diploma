@@ -31,9 +31,7 @@ class Entity {
   static create(data, callback) {
     createRequest({
       url: this.URL,
-      data: {
-        mail: data.mail,
-      },
+      data,
       method: "PUT",
       callback: callback,
     });
