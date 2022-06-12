@@ -55,7 +55,6 @@ class AccountsWidget {
    * метода renderItem()
    * */
   update() {
-    console.log(User.current());
     if (User.current()) {
       Account.list({ user_id: User.current().id }, (err, response) => {
         if (response.success) {
