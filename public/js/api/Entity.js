@@ -14,10 +14,7 @@ class Entity {
   static list(data, callback){
     createRequest({
       url: this.URL,
-      data: {
-        mail: data.mail,
-        password: data.password,
-      },
+      data,
       method: "GET",
       callback: callback,
     });
@@ -44,9 +41,7 @@ class Entity {
   static remove(data, callback ) {
     createRequest({
       url: this.URL,
-      data: {
-        mail: data.mail,
-      },
+      data,
       method: "DELETE",
       callback: callback,
     })

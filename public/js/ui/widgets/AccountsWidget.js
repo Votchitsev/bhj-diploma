@@ -29,7 +29,8 @@ class AccountsWidget {
    * */
   registerEvents() {
     const createAccountBtn = this.element.querySelector('.create-account');
-    createAccountBtn.addEventListener('click', () => {
+    createAccountBtn.addEventListener('click', (e) => {
+      e.preventDefault();
       App.getModal('createAccount').open();
     });
 
@@ -54,8 +55,9 @@ class AccountsWidget {
    * метода renderItem()
    * */
   update() {
+    console.log(User.current());
     if (User.current()) {
-      Account.list(User.current().id, (err, response) => {
+      Account.list({ user_id: User.current().id }, (err, response) => {
         if (response.success) {
           this.clear();
           this.renderItem(response.data);
@@ -71,9 +73,11 @@ class AccountsWidget {
    * в боковой колонке
    * */
   clear() {
-    const deleteElement = this.element.querySelector('.account');
-    if (deleteElement) {
-      deleteElement.remove();
+    const deleteElement = this.element.querySelectorAll('.account');
+    if (deleteElement.length > 0) {
+      for (let i = 0; i < deleteElement.length; i++) {
+        deleteElement.item(i).remove();
+      }
     }
   }
 
