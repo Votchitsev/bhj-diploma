@@ -14,10 +14,10 @@ class AccountsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-    if (!element) {
-      throw new Error('Get empty element');
-    }
+    if (!element) throw new Error('Get empty element');
     this.element = element;
+    this.update();
+    this.registerEvents();
   }
 
   /**
@@ -29,21 +29,18 @@ class AccountsWidget {
    * */
   registerEvents() {
     const createAccountBtn = this.element.querySelector('.create-account');
-    createAccountBtn.addEventListener('click', (e) => {
-      e.preventDefault();
+    createAccountBtn.addEventListener('click', () => {
       App.getModal('createAccount').open();
     });
 
     const accounts = document.querySelectorAll('.account');
     for (let i = 0; i < accounts.length; i++) {
-      accounts.item(i).addEventListener('click', (e) => {
-        e.preventDefault();
+      accounts.item(i).addEventListener('click', () => {
         this.onSelectAccount(accounts.item(i));
-      })
+      });
     }
   }
   
-
   /**
    * Метод доступен только авторизованным пользователям
    * (User.current()).
@@ -89,11 +86,13 @@ class AccountsWidget {
    * */
   onSelectAccount( element ) {
     const active = this.element.querySelector('.active');
+    
     if (active) {
       active.className = 'account';
     }
-    element.classList.add('active') ;
-    App.showPage('transactions', { account_id: element.id })
+    
+    element.classList.add('active');
+    App.showPage('transactions', { account_id: element.getAttribute('data-id') });
   }
 
   /**

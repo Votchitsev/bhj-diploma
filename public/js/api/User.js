@@ -13,12 +13,10 @@ class User {
    * */
   static setCurrent(user) {
     const storage = window.localStorage;
-
     const currentUser = {
       id: user.id,
       name: user.name,
     }
-
     storage.setItem("user", JSON.stringify(currentUser));
   }
 
@@ -45,14 +43,12 @@ class User {
    * авторизованном пользователе.
    * */
   static fetch(callback) {
-    
     const user = createRequest({
       url: this.URL + '/current',
       data: {},
       method: 'GET',
       callback: callback,
     });
-
     return user
   }
 

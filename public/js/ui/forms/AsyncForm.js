@@ -23,8 +23,7 @@ class AsyncForm {
    * вызывает метод submit()
    * */
   registerEvents() {
-    this.element.addEventListener('submit', (e) => {
-      e.preventDefault();
+    this.element.addEventListener('submit', () => {
       this.submit();
     })
   }
@@ -37,18 +36,27 @@ class AsyncForm {
    * }
    * */
   getData() {
-    const formInputs = this.element.querySelectorAll('input');
+    const formInputs = this.element.querySelectorAll('input, select');
     const result = {};
     
     for (let i = 0; i < formInputs.length; i++) {
       result[formInputs.item(i).name] = formInputs.item(i).value;
     }
-    
+
     return result;
   }
 
   onSubmit(options){
-
+    Account.create(options, (err, response) => {
+      if (response.success) {
+        App.getModal('createAccount').close();
+        this.element.reset();
+        App.update();
+        return;
+      }
+      alert(response.error);
+      this.element.reset();
+    })
   }
 
   /**

@@ -12,9 +12,7 @@ class Modal {
    * необходимо выкинуть ошибку.
    * */
   constructor(element){
-    if (!element) {
-      throw new Error('Get empty element.');
-    }
+    if (!element) throw new Error('Get empty element.');
     this.element = element; 
     this.registerEvents();
   }
@@ -29,7 +27,6 @@ class Modal {
 
     for (let i = 0; i < closeBtns.length; i++) { 
       closeBtns.item(i).addEventListener('click', (e) => {
-        e.preventDefault();
         this.onClose(e); 
       })
     }
@@ -39,7 +36,7 @@ class Modal {
    * Срабатывает после нажатия на элементы, закрывающие окно.
    * Закрывает текущее окно (Modal.close())
    * */
-  onClose(e) {
+  onClose() {
     this.close();
   }
   /**
