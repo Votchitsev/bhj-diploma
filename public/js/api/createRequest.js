@@ -5,6 +5,13 @@
 const createRequest = (options = {}) => {
   const xhr = new XMLHttpRequest();
   xhr.responseType = 'json';
+  xhr.onload = () => {
+    if (xhr.status != 200) {
+      options.callback(xhr.statusText, null);
+    } else {
+      options.callback(null, xhr.response);
+    }   
+  }
   
   if (options.method != 'GET') {
     const formData = new FormData();
@@ -14,14 +21,6 @@ const createRequest = (options = {}) => {
         
     xhr.open(options.method, options.url);
     xhr.send(formData);
-
-    xhr.onload = () => {
-        if (xhr.status != 200) {
-          options.callback(xhr.statusText, null);
-        } else {
-          options.callback(null, xhr.response);
-        }   
-      }
   } else {
     let request = options.url + '?'
     let counter = 0
@@ -42,14 +41,6 @@ const createRequest = (options = {}) => {
     }
 
     xhr.open(options.method, request.replace(/\&$/, ''));
-    xhr.send();
-
-    xhr.onload = () => {
-      if (xhr.status != 200) {
-        options.callback(xhr.statusText, null);
-        } else {
-        options.callback(null, xhr.response);
-      }       
-    }       
+    xhr.send();     
   } 
 }
