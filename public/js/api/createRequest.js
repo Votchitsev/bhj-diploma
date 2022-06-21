@@ -12,35 +12,25 @@ const createRequest = (options = {}) => {
       options.callback(null, xhr.response);
     }   
   }
+
+  let requestUrl = options.url;
+  const formData = new FormData();
   
   if (options.method != 'GET') {
-    const formData = new FormData();
     Object.keys(options.data).forEach((key) => {
         formData.append(key, options.data[key])
     });
-        
-    xhr.open(options.method, options.url);
-    xhr.send(formData);
-  } else {
-    let request = options.url + '?'
-    let counter = 0
 
-    for (item in options.data) {
-      counter++
-    }
-    
-    let iter = 0
+  } else {
+
+    requestUrl = requestUrl + '?'
 
     for (key in options.data) {
-      request += `${key}=${options.data[key]}`
-      if (iter < counter) {
-        request += '&'
-        iter++
-      }
-        iter++
+      requestUrl += `${key}=${options.data[key]}&`
     }
 
-    xhr.open(options.method, request.replace(/\&$/, ''));
-    xhr.send();     
-  } 
+    requestUrl = requestUrl.replace(/\&$/, '');    
+  }
+  xhr.open(options.method, requestUrl);
+  xhr.send(formData);
 }
