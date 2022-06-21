@@ -12,12 +12,7 @@ class User {
    * локальном хранилище.
    * */
   static setCurrent(user) {
-    const storage = window.localStorage;
-    const currentUser = {
-      id: user.id,
-      name: user.name,
-    }
-    storage.setItem("user", JSON.stringify(currentUser));
+    localStorage.setItem("user", JSON.stringify(user));
   }
 
   /**
@@ -25,17 +20,15 @@ class User {
    * пользователе из локального хранилища.
    * */
   static unsetCurrent() {
-    const storage = window.localStorage;
-    return storage.removeItem("user");
-  }
+    return localStorage.removeItem("user");
+  } 
 
   /**
    * Возвращает текущего авторизованного пользователя
    * из локального хранилища
    * */
   static current() {
-    const storage = window.localStorage;
-    return JSON.parse(storage.getItem("user"));
+    return JSON.parse(localStorage.getItem("user"));
   }
 
   /**
@@ -43,13 +36,19 @@ class User {
    * авторизованном пользователе.
    * */
   static fetch(callback) {
-    const user = createRequest({
+    createRequest({
       url: this.URL + '/current',
       data: {},
       method: 'GET',
-      callback: callback,
+      callback: (err, response) => {
+        if (response.success) {
+          this.setCurrent(response.user);
+        } else {
+          this.unsetCurrent();
+        }
+        callback(err, response)
+      }
     });
-    return user
   }
 
   /**
