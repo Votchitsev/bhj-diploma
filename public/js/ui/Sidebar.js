@@ -23,19 +23,11 @@ class Sidebar {
     const sidebarToggle = document.querySelector('.sidebar-toggle');
 
     sidebarToggle.addEventListener('click', (e) => {
-      
       e.preventDefault();
-      
-      if (sidebar.classList.contains("sidebar-open")) {
-        sidebar.classList.remove('sidebar-open');
-        sidebar.classList.remove('sidebar-collapse');
-        return
+      sidebar.classList.toggle('sidebar-open');
+      sidebar.classList.toggle('sidebar-collapse');
       }
-
-      sidebar.classList.add('sidebar-open');
-      sidebar.classList.add('sidebar-collapse');
-    })
-    
+    )
   }
 
   /**
