@@ -101,25 +101,13 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML(item){
-    let li = document.createElement('li');
-    li.className = 'account';
-    li.setAttribute('data-id', item.id);
-
-    let a = document.createElement('a');
-    a.href = "#";
-    li.append(a);
-
-    let accountName = document.createElement('span');
-    accountName.textContent = item.name;
-    a.append(accountName);
-
-    a.append(' / ');
-  
-    let accountSum = document.createElement('span');
-    accountSum.textContent = item.sum + ' ₽';
-    a.append(accountSum);
-
-    return li
+    return `
+    <li class="account" data-id="${item.id}">
+        <a href="#">
+            <span>${item.name}</span> /
+            <span>${item.sum} ₽</span>
+        </a>
+    </li>`
   }
 
   /**
@@ -130,7 +118,7 @@ class AccountsWidget {
    * */
   renderItem(data){
     for (let i = 0; i < data.length; i++) {
-      this.element.append(this.getAccountHTML(data[i]));
+      this.element.insertAdjacentHTML('beforeend', this.getAccountHTML(data[i]));
     }
   }
 }

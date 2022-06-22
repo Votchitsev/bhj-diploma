@@ -141,7 +141,7 @@ class TransactionsPage {
       'октября', 'ноября', 'декабря'
     ];
     return `${parsedDate.getDate()} ${months[parsedDate.getMonth()]} ${parsedDate.getFullYear()} г.
-    в ${parsedDate.getHours()}:${parsedDate.getMinutes()}`
+    в ${parsedDate.getHours()}:${('0' + parsedDate.getMinutes()).slice(-2)}`
   }
 
   /**
@@ -149,76 +149,29 @@ class TransactionsPage {
    * item - объект с информацией о транзакции
    * */
   getTransactionHTML(item){
-    const transaction = document.createElement('div');
-    transaction.className = 'transaction row';
-
-    if (item.type == 'income') {
-      transaction.classList.add('transaction_income');
-    }
-
-    if (item.type == 'expense') {
-      transaction.classList.add('transaction_expense');
-    }
-
-    const transactionDetails = document.createElement('div');
-    transactionDetails.className = 'col-md-7 transaction__details';
-
-    const transactionIcon = document.createElement('div');
-    transactionIcon.className = 'transaction__icon';
-
-    const faMoney = document.createElement('span');
-    faMoney.className = 'fa fa-money fa-2x';
-    transactionIcon.append(faMoney);
-
-    const transactionInfo = document.createElement('div');
-    transactionInfo.className = 'transaction__info';
-
-    const transactionTitle = document.createElement('h4');
-    transactionTitle.className = 'transaction__title';
-    transactionTitle.textContent = item.name;
-    transactionInfo.append(transactionTitle);
-
-    const transactionDate = document.createElement('div');
-    transactionDate.className = 'transaction__date';
-    transactionDate.textContent = this.formatDate(item.created_at);
-    transactionInfo.append(transactionDate);
-
-    transactionDetails.append(transactionIcon);
-    transactionDetails.append(transactionInfo);
-
-    transaction.append(transactionDetails);
-
-    const colMd3 = document.createElement('div');
-    colMd3.className = 'col-md-3';
-
-    const transactionSumm = document.createElement('div');
-    transactionSumm.className = 'transaction__summ';
-    transactionSumm.textContent = item.sum;
-
-    const currency = document.createElement('span');
-    currency.className = 'currency';
-    currency.textContent = '₽';
-    transactionSumm.append(currency);
-    colMd3.append(transactionSumm);
-
-    transaction.append(colMd3);
-
-    const transactionControls = document.createElement('div');
-    transactionControls.className = 'col-md-2 transaction__controls';
-
-    const transactionRemove = document.createElement('button');
-    transactionRemove.className = 'btn btn-danger transaction__remove';
-    transactionRemove.setAttribute('data-id', item.id);
-
-    const faTrash = document.createElement('i');
-    faTrash.className = 'fa fa-trash';
-    transactionRemove.append(faTrash);
-
-    transactionControls.append(transactionRemove);
-
-    transaction.append(transactionControls);
-
-    return transaction;
+    return `
+    <div class="transaction transaction_${item.type} row">
+    <div class="col-md-7 transaction__details">
+      <div class="transaction__icon">
+          <span class="fa fa-money fa-2x"></span>
+      </div>
+      <div class="transaction__info">
+          <h4 class="transaction__title">${item.name}</h4>
+          <div class="transaction__date">${this.formatDate(item.created_at)}</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="transaction__summ">
+          ${item.sum} <span class="currency">₽</span>
+      </div>
+    </div>
+    <div class="col-md-2 transaction__controls">
+        <!-- в data-id нужно поместить id -->
+        <button class="btn btn-danger transaction__remove" data-id="${item.id}">
+            <i class="fa fa-trash"></i>  
+        </button>
+    </div>
+    </div>`
   }
 
   /**
@@ -228,7 +181,7 @@ class TransactionsPage {
   renderTransactions(data){
     const content = this.element.querySelector('.content');
     for (let i = 0; i < data.length; i++) {
-      content.append(this.getTransactionHTML(data[i]));
+      content.insertAdjacentHTML('afterbegin', this.getTransactionHTML(data[i]))
     }
   }
 }
