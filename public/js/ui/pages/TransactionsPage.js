@@ -35,21 +35,21 @@ class TransactionsPage {
    * TransactionsPage.removeAccount соответственно
    * */
   registerEvents() {
-    const removeAccountBtn = this.element.querySelector('.remove-account');
-    
-    if (!removeAccountBtn.onclick) {
-      removeAccountBtn.onclick = () => {
+    this.element.addEventListener('click', (e) => {
+      
+      if (e.target.className.includes('remove-account')) {
         this.removeAccount();
-      }
-    }
+      };
 
-    const transactionRemoveBtns = this.element.querySelectorAll('.transaction__remove')
-    
-    for (let i = 0; i < transactionRemoveBtns.length; i++) {
-      transactionRemoveBtns.item(i).addEventListener('click', (e) => {
-        this.removeTransaction(e.currentTarget.getAttribute('data-id'));
-      });
-    }
+      if (e.target.className.includes('transaction__remove') || e.target.className.includes('fa-trash')) {
+
+        if (!e.target.getAttribute('data-id')) {
+          return this.removeTransaction(e.target.parentNode.getAttribute('data-id'));
+        };
+        
+        this.removeTransaction(e.target.getAttribute('data-id'))
+      }
+    });
   }
 
   /**
@@ -104,7 +104,6 @@ class TransactionsPage {
           Transaction.list({ account_id: response.data.id }, (err, response) => {
             if (response.success) {
               this.renderTransactions(response.data);
-              this.registerEvents();
             } 
           });
         }
