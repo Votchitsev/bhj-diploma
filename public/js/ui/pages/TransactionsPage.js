@@ -42,7 +42,7 @@ class TransactionsPage {
       };
 
       if (e.target.closest('.transaction__remove')) {
-        this.removeTransaction(e.target.closest('.transaction__remove'));
+        this.removeTransaction(e.target.closest('.transaction__remove').getAttribute('data-id'));
       }
     });
   }
@@ -96,12 +96,13 @@ class TransactionsPage {
       Account.get(options.account_id, (err, response) => {
         if (response.success) {
           this.renderTitle(response.data.name);
-          Transaction.list({ account_id: response.data.id }, (err, response) => {
-            if (response.success) {
-              this.renderTransactions(response.data);
-            } 
-          });
+          
         }
+      });
+      Transaction.list({ account_id: options.account_id }, (err, response) => {
+        if (response.success) {
+          this.renderTransactions(response.data);
+        } 
       });
     }
   }
