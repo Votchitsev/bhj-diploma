@@ -14,7 +14,9 @@ class AccountsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-    if (!element) throw new Error('Get empty element');
+    if (!element) {
+      throw new Error('Get empty element');
+    }
     this.element = element;
     this.update();
     this.registerEvents();

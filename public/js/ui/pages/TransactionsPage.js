@@ -11,7 +11,9 @@ class TransactionsPage {
    * через registerEvents()
    * */
   constructor( element ) {
-    if (!element) throw new Error('Get empty element.');
+    if (!element) {
+      throw new Error('Get empty element.');
+    }
     this.element = element;
     this.lastOptions = null;
     this.registerEvents();
