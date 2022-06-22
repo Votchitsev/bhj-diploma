@@ -37,17 +37,12 @@ class TransactionsPage {
   registerEvents() {
     this.element.addEventListener('click', (e) => {
       
-      if (e.target.className.includes('remove-account')) {
+      if (e.target.closest('.remove-account')) {
         this.removeAccount();
       };
 
-      if (e.target.className.includes('transaction__remove') || e.target.className.includes('fa-trash')) {
-
-        if (!e.target.getAttribute('data-id')) {
-          return this.removeTransaction(e.target.parentNode.getAttribute('data-id'));
-        };
-        
-        this.removeTransaction(e.target.getAttribute('data-id'))
+      if (e.target.closest('.transaction__remove')) {
+        this.removeTransaction(e.target.closest('.transaction__remove'));
       }
     });
   }
